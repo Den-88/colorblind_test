@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Тест на дальтонизм</string>
+
+    <string name="MenuInstr">Описание</string>
+    <string name="MenuSetting">Настройки</string>
+    <string name="MenuAbout">О программе</string>
+    <string name="AboutText1">Версия:</string>
+    <string name="AboutText2">\nРазработчик: Шакуров Денис</string>
+    <string name="AboutButton">Закрыть</string>
+    <string name="Nothing">ничего</string>
+    <string name="result_good">У вас нет нарушений цветового восприятия.</string>
+    <string name="result_protanopia">У вас выявлена протанопия (нарушение восприятия красного цвета).</string>
+    <string name="result_deuteranopia">У вас выявлена дейтеранопия (нарушение восприятия зелёного цвета).</string>
+    <string name="reslt_not_good">У вас вывлениы нарушения цветовосприятия.\nРекомендуется обратиться к офтальмологу для более детальной проверки.</string>
+    <string name="repeat">Повторить тест</string>
+    <string name="text_choose">Что Вы видите на картинке?\n\nВыберите один вариант ответа:</string>
+    <string name="ManualText">Данное приложение является простым тестом на дальтонизм. Оно позволяет определить наличие и тип цветовой слепоты с помощью серии изображений. \n\nПервые 14 изображений направлены на выявление общих нарушений цветовосприятия. Изображения с 15 по 18 помогут выявить более специфические формы дальтонизма, такие как протанопия и дейтеранопия.\n\nЦветовая слепота (дальтонизм) — нарушение цветового восприятия, при котором человек не различает определённые цвета или их оттенки. Тесты помогают выявить разные формы дальтонизма, такие как протанопия и дейтеранопия.</string>
+    <string name="test">"Тест "</string>
+    <string name="fom_18">" из 18"</string>
+    <string name="vibro">Вибрация</string>
+    <string name="vibro_sum">Вибрировать при нажатии кнопок</string>
+
+</resources>

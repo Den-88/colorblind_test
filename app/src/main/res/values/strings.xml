@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ColorBlind test</string>
+
+    <string name="MenuInstr">Description</string>
+    <string name="MenuSetting">Settings</string>
+    <string name="MenuAbout">About</string>
+    <string name="AboutText1">Version:</string>
+    <string name="AboutText2">\nDeveloper: Denis Shakurov</string>
+    <string name="AboutButton">Close</string>
+    <string name="Nothing">nothing</string>
+    <string name="result_good">You have no color vision deficiencies.</string>
+    <string name="result_protanopia">You have Protanopia (a deficiency in perceiving red).</string>
+    <string name="result_deuteranopia">You have Deuteranopia (a deficiency in perceiving green).</string>
+    <string name="reslt_not_good">You have a color vision deficiency.\nWe recommend visiting an ophthalmologist for further evaluation.</string>
+    <string name="repeat">Repeat the test</string>
+    <string name="text_choose">What do you see in the image?\n\nChoose one option:</string>
+    <string name="ManualText">This application is a simple color blindness test. It helps determine the presence and type of color vision deficiency using a series of images.\n\nThe first 14 images are designed to detect general color vision deficiencies. Images 15 to 18 help identify more specific forms of color blindness, such as Protanopia and Deuteranopia.\n\nColor blindness is a visual impairment where a person cannot distinguish certain colors or shades. The tests help identify different forms of color blindness, such as Protanopia and Deuteranopia.</string>
+    <string name="test">"Test "</string>
+    <string name="fom_18">" of 18"</string>
+    <string name="vibro">Vibration</string>
+    <string name="vibro_sum">Vibrate when pressing buttons</string>
+
+
+</resources>

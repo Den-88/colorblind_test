@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:icon="@drawable/ic_vibration"
+        android:key="vibro_preference"
+        android:title="@string/vibro"
+        android:summary="@string/vibro_sum"
+        android:defaultValue="true" />
+
+</PreferenceScreen>

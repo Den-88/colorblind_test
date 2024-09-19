@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ColorblindTest" parent="Theme.Material3.DynamicColors.DayNight">
+    <!-- Сделать строку состояния светлой с темным текстом -->
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="android:statusBarColor">#FFFFFF</item>
+    </style>
+</resources>
