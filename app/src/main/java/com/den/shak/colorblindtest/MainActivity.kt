@@ -86,11 +86,11 @@ class MainActivity : AppCompatActivity() {
         // Загрузка межстраничных рекламных объявлений должна происходить после инициализации SDK
         interstitialAdLoader = InterstitialAdLoader(this).apply {
             setAdLoadListener(object : InterstitialAdLoadListener {
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    interstitialAd = ad
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    this@MainActivity.interstitialAd = interstitialAd
                     // Реклама успешно загружена, можно показывать
                 }
-                override fun onAdFailedToLoad(adRequestError: AdRequestError) {
+                override fun onAdFailedToLoad(error: AdRequestError) {
                     // Ошибка при загрузке рекламы
                 }
             })
@@ -380,7 +380,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadInterstitialAd() {
         // Получаем ID рекламного блока
-        var adInterstitialId = ""
+        var adInterstitialId: String
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val installSourceInfo = packageManager.getInstallSourceInfo(packageName)
             val installerPackageName = installSourceInfo.installingPackageName
