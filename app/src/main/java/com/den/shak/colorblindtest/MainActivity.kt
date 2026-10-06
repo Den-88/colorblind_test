@@ -29,10 +29,9 @@ import com.yandex.mobile.ads.banner.BannerAdSize
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdError
 import com.yandex.mobile.ads.common.AdRequest
-import com.yandex.mobile.ads.common.AdRequestConfiguration
 import com.yandex.mobile.ads.common.AdRequestError
 import com.yandex.mobile.ads.common.ImpressionData
-import com.yandex.mobile.ads.common.MobileAds
+import com.yandex.mobile.ads.common.YandexAds
 import com.yandex.mobile.ads.interstitial.InterstitialAd
 import com.yandex.mobile.ads.interstitial.InterstitialAdEventListener
 import com.yandex.mobile.ads.interstitial.InterstitialAdLoadListener
@@ -82,19 +81,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Инициализация рекламного SDK Yandex
-        MobileAds.initialize(this) {}
+        YandexAds.initialize(this) {}
         // Загрузка межстраничных рекламных объявлений должна происходить после инициализации SDK
-        interstitialAdLoader = InterstitialAdLoader(this).apply {
-            setAdLoadListener(object : InterstitialAdLoadListener {
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    this@MainActivity.interstitialAd = interstitialAd
-                    // Реклама успешно загружена, можно показывать
-                }
-                override fun onAdFailedToLoad(error: AdRequestError) {
-                    // Ошибка при загрузке рекламы
-                }
-            })
-        }
+        interstitialAdLoader = InterstitialAdLoader(this)
 
         // Загрузка межстраничной рекламы
         loadInterstitialAd()
@@ -133,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         displayCurrentImageAndButtons()
 
         // Отслеживание изменения размера контейнера для рекламы и загрузка баннера
-        adContainerView = this.findViewById<BannerAdView>(R.id.ad_container_view)
+        adContainerView = this.findViewById(R.id.ad_container_view)
         adContainerView.viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -317,7 +306,7 @@ class MainActivity : AppCompatActivity() {
             }
             // Преобразуем ширину в dp для баннера
             val adWidth = (adWidthPixels / resources.displayMetrics.density).roundToInt()
-            return BannerAdSize.stickySize(this, adWidth)
+            return BannerAdSize.sticky(this, adWidth)
         }
 
     // Метод для загрузки баннерной рекламы с обработкой событий
@@ -326,14 +315,14 @@ class MainActivity : AppCompatActivity() {
         return adContainerView.apply {
             setAdSize(adSize)
             // Получаем ID рекламного блока
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val adUnitId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val installSourceInfo = packageManager.getInstallSourceInfo(packageName)
                 val installerPackageName = installSourceInfo.installingPackageName
 
                 when (installerPackageName) {
-                    "com.android.vending" -> setAdUnitId(ConfigReader.getAdUnitId(this@MainActivity))
-                    "ru.vk.store" -> setAdUnitId(ConfigReader.getAdRuStoreUnitId(this@MainActivity))
-                    else -> setAdUnitId(ConfigReader.getAdUnitId(this@MainActivity))
+                    "com.android.vending" -> ConfigReader.getAdUnitId(this@MainActivity).toString()
+                    "ru.vk.store" -> ConfigReader.getAdRuStoreUnitId(this@MainActivity).toString()
+                    else -> ConfigReader.getAdUnitId(this@MainActivity).toString()
                 }
             } else {
                 // Используем устаревший метод для API ниже 30
@@ -341,9 +330,9 @@ class MainActivity : AppCompatActivity() {
                 val installerPackageName = packageManager.getInstallerPackageName(packageName)
 
                 when (installerPackageName) {
-                    "com.android.vending" -> setAdUnitId(ConfigReader.getAdUnitId(this@MainActivity))
-                    "ru.vk.store" -> setAdUnitId(ConfigReader.getAdRuStoreUnitId(this@MainActivity))
-                    else -> setAdUnitId(ConfigReader.getAdUnitId(this@MainActivity))
+                    "com.android.vending" -> ConfigReader.getAdUnitId(this@MainActivity).toString()
+                    "ru.vk.store" -> ConfigReader.getAdRuStoreUnitId(this@MainActivity).toString()
+                    else -> ConfigReader.getAdUnitId(this@MainActivity).toString()
                 }
             }
 
@@ -363,18 +352,12 @@ class MainActivity : AppCompatActivity() {
                 // Обработка клика на рекламу
                 override fun onAdClicked() {}
 
-                // Событие при уходе пользователя из приложения
-                override fun onLeftApplication() {}
-
-                // Событие при возврате в приложение
-                override fun onReturnedToApplication() {}
-
                 // Событие при показе рекламы
                 override fun onImpression(impressionData: ImpressionData?) {
                 }
             })
             // Загружаем рекламный запрос
-            loadAd(AdRequest.Builder().build())
+            loadAd(AdRequest.Builder(adUnitId).build())
         }
     }
 
@@ -401,8 +384,16 @@ class MainActivity : AppCompatActivity() {
                 else -> ConfigReader.getAdInterstitiaId(this@MainActivity).toString()
             }
         }
-        val adRequestConfiguration = AdRequestConfiguration.Builder(adInterstitialId).build()
-        interstitialAdLoader?.loadAd(adRequestConfiguration)
+        val adRequest = AdRequest.Builder(adInterstitialId).build()
+        interstitialAdLoader?.loadAd(adRequest, object : InterstitialAdLoadListener {
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                this@MainActivity.interstitialAd = interstitialAd
+                // Реклама успешно загружена, можно показывать
+            }
+            override fun onAdFailedToLoad(error: AdRequestError) {
+                // Ошибка при загрузке рекламы
+            }
+        })
     }
 
     private fun showAd() {
